@@ -1,0 +1,192 @@
+import java.util.Scanner;
+
+public class Main {
+
+    static Scanner scanner = new Scanner(System.in);
+
+    //variables
+
+    static int choice = 0;
+    static boolean running = true;
+
+    //buying menu variables
+    static double customerBalance = 100;
+    static int breadCont = 1;
+    static int cakeCont = 0;
+    static int sourCont = 0;
+    static int cheeCont = 0;
+
+    //owner menu variable
+    static double ownerBalance = 0;
+    static double robotBalance = 0;
+
+    static void main(String[] args) throws InterruptedException {
+
+        //baker robot shop
+
+        while (running) {
+
+            //list to check whether buying or the owner system
+            mainMenu();
+
+            switch (choice) {
+
+                case 1 -> {
+                    Thread.sleep(1000);
+                    buyingMenu();
+                }
+                case 2 -> {
+                    Thread.sleep(1000);
+                    ownerMenu();
+                }
+
+                default -> System.out.println("Invalid Choice!");
+
+            }
+
+            Thread.sleep(2000);
+
+        }
+
+
+        //owner of the baker robot with the ability to take money from the shop
+
+        scanner.close();
+
+
+    }
+    static void mainMenu () {
+
+
+        System.out.println("\n\n\n\n************************\n");
+        System.out.println("  The Baker Robot Shop  \n");
+        System.out.println("************************\n");
+
+        System.out.println("1-Buying");
+        System.out.println("2-Owner program\n");
+        System.out.println("************************");
+        System.out.print("\nEnter respective number to the option: ");
+        choice = scanner.nextInt();
+
+    }
+    static void buyingMenu () {
+
+
+        //shows the items customer already has
+        System.out.println("\n\nYou have: ");
+
+        System.out.println("************************");
+        System.out.print((breadCont == 0)? "":breadCont + " bread\n");
+        System.out.print((cakeCont == 0)? "":cakeCont + " cake\n");
+        System.out.print((sourCont == 0)? "":sourCont + " sourdough\n");
+        System.out.print((cheeCont == 0)? "":cheeCont + " cheesecake\n");
+        System.out.printf("%,.2f$ \n", customerBalance);
+
+        System.out.println("************************");
+
+
+
+        System.out.println("\nWhat would you like?");
+        System.out.println("************************");
+
+        System.out.println("1-bread (1.00$)");
+        System.out.println("2-cake (20.00$)");
+        System.out.println("3-sourdough (3.50$)");
+        System.out.println("4-cheesecake (14.25$)");
+
+        System.out.println("************************");
+        System.out.print("\nEnter the respective number to the item: ");
+        choice = scanner.nextInt();
+
+        switch (choice) {
+
+
+
+            case 1 -> {
+
+                customerBalance -= 1.00 ;
+                robotBalance += 1.00 ;
+                ++breadCont;
+            }
+            case 2 -> {
+                customerBalance -= 20 ;
+                robotBalance += 20 ;
+                ++cakeCont;
+            }
+            case 3 -> {
+                customerBalance -= 3.5 ;
+                robotBalance += 3.5 ;
+
+                ++sourCont;
+            }
+            case 4 -> {
+                customerBalance -= 14.25 ;
+                robotBalance += 14.25 ;
+
+                ++cheeCont;
+            }
+
+
+            default -> System.out.println("Invalid choice");
+        }
+
+        if (customerBalance < 0 ) {
+
+            System.out.println("\nYou're now in debt!");
+
+        }
+
+    }
+
+    static void ownerMenu () throws InterruptedException j{
+
+        System.out.printf("\n\nYou have: %,.2f$ \n", ownerBalance);
+
+        System.out.println("\nWhat operation would you like to do? ");
+        System.out.println("************************");
+
+        System.out.println("1-Withdraw money from the shop");
+        System.out.println("2-Show how much money is in the shop");
+
+
+        System.out.println("************************");
+        System.out.print("\nEnter the respective number to the operation: ");
+        choice = scanner.nextInt();
+
+        System.out.println("\n");
+        switch (choice) {
+
+            case 1 -> {
+                Thread.sleep(1000);
+                withdraw();
+            }
+            case 2 -> {
+                Thread.sleep(1000);
+                System.out.printf("The robot has %,.2f", robotBalance);
+            }
+
+            default -> System.out.println("Invalid choice");
+
+        }
+    }
+    static void withdraw () {
+
+        double amount = 0;
+
+        System.out.print("How much would you like to withdraw: ");
+        amount = scanner.nextDouble();
+
+        if (amount > robotBalance) {
+
+            System.out.println("there isn't enough money to withdraw!");
+
+        }
+
+        else {
+
+            robotBalance -= amount;
+            ownerBalance += amount;
+
+        }
+    }
+}
